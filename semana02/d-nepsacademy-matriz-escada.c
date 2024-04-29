@@ -13,9 +13,11 @@ int main() {
             if (skip)
                 continue;
 
-            if (!num)
-                current_lefty++;
-            else if (most_left == -1 && current_lefty == -1) {
+            current_lefty++;
+            if (!num) {
+                if (most_left < current_lefty)
+                    most_left = current_lefty;
+            } else if (most_left == -1 && current_lefty == 0) {
                 most_left = 0;
                 skip = 1;
             } else if (current_lefty <= most_left) {
