@@ -32,7 +32,7 @@ int main() {
                 } else {
                     for (; x < (diff + 1) / 2; nums[idx++] = x++)
                         ;
-                    if ((diff & 1) == 0 && (x & 1) == 0)
+                    if ((diff & 1) == 0)
                         nums[idx++] = x;
                     for (; x > 0; nums[idx++] = x--)
                         ;
@@ -43,7 +43,7 @@ int main() {
     }
 
     for (int i = 0; i < idx; i++) {
-        printf("%d", nums[i]);
+        printf("%d", nums[i] >= 9 ? 9 : nums[i]);
         if ((i + 1) < idx)
             putchar(' ');
     }
