@@ -1,11 +1,13 @@
-#include <malloc.h>
 #include <stdio.h>
+#include <string.h>
 
 int main() {
     int cities;
     scanf("%d", &cities);
-    int *roads = calloc(cities + 1, sizeof(int));
-    char *visited = calloc(cities + 1, sizeof(char));
+    int roads[cities + 1];
+    memset(roads, 0, sizeof(roads));
+    char visited[cities + 1];
+    memset(visited, 0, sizeof(visited));
 
     for (int i = 0; i < cities; i++) {
         int c1, c2;
@@ -14,18 +16,12 @@ int main() {
     }
 
     int current = 1, total = 0;
-    for (int i = 0; i < cities; i++) {
-        if (!roads[current])
-            break;
-        if (!visited[current]) {
-            visited[current] = 1;
-            total++;
-        }
+    for (int i = 0; i < cities && roads[current] && !visited[current]; i++) {
+        visited[current] = 1;
+        total++;
         current = roads[current];
     }
-    free(roads);
-    free(visited);
 
-    printf("%c\n", (total == cities) ? 'S' : 'N');
+    printf("%c\n", (total >= cities) ? 'S' : 'N');
     return 0;
 }
