@@ -1,27 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+#define int long long
+
+int findLower(int arr[], int len, int target) {
+    int start = 0, end = len - 1;
+
+    while (start < end) {
+        int mid = start + ((end - start) / 2);
+
+        if (arr[mid] >= target)
+            end = mid;
+        else
+            start = mid + 1;
+    }
+
+    return end;
+}
+
+signed main() {
     int circleCount, shotCount, score = 0;
-    scanf("%d %d", &circleCount, &shotCount);
+    scanf("%lld %lld", &circleCount, &shotCount);
     int radius[circleCount];
-    for (int i = circleCount; i--;
-         scanf("%d", &radius[i]), radius[i] *= radius[i])
+    for (int i = 0; i < circleCount;
+         scanf("%lld", &radius[i]), radius[i] *= radius[i], i++)
         ;
 
     while (shotCount--) {
         int x, y;
-        scanf("%d %d", &x, &y);
+        scanf("%lld %lld", &x, &y);
 
-        int dist = abs(x * x) + abs(y * y);
+        int dist = llabs(x * x) + llabs(y * y);
+        if (dist > radius[circleCount - 1])
+            continue;
 
-        for (int i = 0; i < circleCount; i++)
-            if (dist <= radius[i])
-                score++;
-            else
-                break;
+        score += circleCount - findLower(radius, circleCount, dist);
     }
 
-    printf("%d\n", score);
+    printf("%lld\n", score);
     return 0;
 }
