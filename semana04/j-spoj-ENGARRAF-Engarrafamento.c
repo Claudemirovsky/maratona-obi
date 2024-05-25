@@ -1,52 +1,60 @@
 #include <limits.h>
 #include <stdio.h>
 
-int minDistIndex(int *dist, char *visited, int size) {
+int minCostIndex(int *cost, char *visited, int size) {
     int min = INT_MAX, min_index = -1;
 
     for (int i = 0; i < size; i++)
         // if it wasnt visited yet AND its the closest item, go to it
         // Note that if there's no unvisited neighbour
         // or not even a single neighbour (INT_MAX distance), we'll return -1.
-        if (!visited[i] && dist[i] <= min)
-            min = dist[i], min_index = i;
+        if (!visited[i] && cost[i] <= min)
+            min = cost[i], min_index = i;
 
     return min_index;
 }
 
 int digimonrussomaldito(int size, int matrix[][size], int start, int target) {
-    int dist[size];
+    int cost[size];
     char visited[size];
     for (int i = 0; i < size; i++) {
         visited[i] = 0;
-        dist[i] = INT_MAX;
+        cost[i] = INT_MAX;
     }
 
-    dist[start] = 0;
+    cost[start] = 0;
 
     for (int i = 0; i < size; i++) {
-        int closest = minDistIndex(dist, visited, size);
+        // >imagine using a set or priority_queue
+        // me and my homies just force a N-vertices iteration
+        int closest = minCostIndex(cost, visited, size);
+
         if (closest == target)
-            return dist[target];
-        if (closest == -1 || dist[closest] == INT_MAX)
+            return cost[target];
+        if (closest == -1 || cost[closest] == INT_MAX)
             continue;
+
         visited[closest] = 1;
-        int distc = dist[closest];
+
+        int curr_cost = cost[closest];
         for (int j = 0; j < size; j++) {
-            if (!visited[j] && matrix[closest][j] != INT_MAX &&
-                (distc + matrix[closest][j]) < dist[j]) {
-                dist[j] = distc + matrix[closest][j];
-            }
+            int pathcost = matrix[closest][j];
+            if (visited[j] || pathcost == INT_MAX)
+                continue;
+
+            pathcost += curr_cost;
+            if (pathcost < cost[j])
+                cost[j] = pathcost;
         }
     }
 
-    return dist[target];
+    return cost[target];
 }
 
 int main() {
     int places, roads;
-
-    while (scanf("%d %d", &places, &roads) && places && roads) {
+    //                                               I HATE SPOJ.
+    while (scanf("%d %d", &places, &roads) && (places || roads)) {
         int cost[places][places], start, target;
 
         for (int i = 0; i < places; i++)
