@@ -14,4 +14,5 @@ Editor usado: Neovim + [LazyVim](https://github.com/LazyVim/LazyVim).
 - [x] [Semana 07](semana07/)
 - [ ] [Semana 08](semana08/)
 - [ ] [Semana 09](semana09/)
-- [ ] [Semana 10](semana10/)
+- [x] [Semana 10](semana10/)
+- [ ] [Semana 11](semana11/)
